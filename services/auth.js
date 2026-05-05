@@ -1,4 +1,4 @@
-import { http, eventbroadcaster } from 'src/modules/lambdatt-ui-toolcase/services.js'
+import { http, eventbroadcaster } from 'src/modules/ui-tools/services.js'
 import { getCurrentRoute, getRouter } from 'src/boot/global-helpers';
 
 export default {
