@@ -85,6 +85,7 @@
 
 <script>
 import { ENDPOINTS } from 'src/services/endpoints';
+import { normalizeFields } from 'src/services/textNormalization';
 
 export default {
   name: 'component-userinfo',
@@ -100,6 +101,7 @@ export default {
     bordered: Boolean,
     requireEmail: Boolean,
     requirePassword: Boolean,
+    normalizePersonRegistrationText: Boolean,
     HideFields: {
       type: Array,
       default: () => [],
@@ -276,12 +278,22 @@ export default {
           console.error('An error occurred while attempting to save the password.', error);
         })
         .finally(() => { this.showPasswordModal = false; this.resetControl() })
+    },
+
+    normalizePersonNameFields() {
+      if (!this.normalizePersonRegistrationText) return false;
+
+      return normalizeFields(this.input, [
+        'ds_first_name',
+        'ds_last_name',
+      ]);
     }
   },
 
   watch: {
     input: {
       handler() {
+        if (this.normalizePersonNameFields()) return;
         this.$emit("update:model-value", this.factory);
       },
       deep: true,
