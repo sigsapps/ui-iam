@@ -1,4 +1,4 @@
-import { http, eventbroadcaster } from 'src/modules/ui-tools/services.js'
+import { http, eventbroadcaster, utils } from 'src/modules/ui-tools/services.js'
 import { getCurrentRoute, getRouter } from 'src/boot/global-helpers';
 
 export default {
@@ -22,7 +22,19 @@ export default {
         getRouter().push(`/login?goTo=${getCurrentRoute().path}`)
         return false;
       }
+
+      if (error.code === 'ECONNABORTED' || !error.response) {
+        utils.notify({
+          message: 'Servidor demorou para responder. Tente novamente.',
+          type: 'negative',
+          position: 'top-right'
+        });
+      } else {
+        utils.notifyError(error);
+      }
+
       console.error(error);
+      return false;
     } finally {
       eventbroadcaster.$broadcast('loaded', 'auth');
     }
