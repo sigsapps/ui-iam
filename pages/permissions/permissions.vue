@@ -72,7 +72,6 @@
                           <tr v-for="(prm, idx) in mod.permissions" :key="idx">
                             <td><span>
                                 {{ prm.entity_label }}
-                                <small v-if="prm.permission_type == 'C'">({{ prm.permission_key }})</small>
                               </span></td>
                             <td class="text-center">
                               <q-checkbox @update:model-value="changePermission(prm)" true-value="Y" false-value="N"
